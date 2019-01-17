@@ -6,18 +6,21 @@ import play.api.libs.json._
 object Node {
 
   def apply(id: String, currentMaster: Boolean, info: JsValue, stats: JsValue): JsValue = {
-    val jvmVersion = (info \ "jvm" \ "version").asOpt[JsString].getOrElse(JsNull)
+    val jvmVersion = (info \ "jvm" \ "vm_version").asOpt[JsString].getOrElse(JsNull)
 
     Json.obj(
       "id" -> JsString(id),
       "current_master" -> JsBoolean(currentMaster),
       "name" -> (stats \ "name").as[JsValue],
+      "host" -> (stats \ "host").as[JsValue],
       "heap" -> heap(stats),
       "disk" -> disk(stats),
       "cpu" -> cpu(stats),
       "uptime" -> (stats \ "jvm" \ "uptime_in_millis").as[JsValue],
+      "jvm_name" -> (info \ "jvm" \ "vm_name").as[JsValue],
       "jvm" -> jvmVersion,
-      "version" -> (info \ "version").as[JsValue]
+      "version" -> (info \ "version").as[JsValue],
+      "build_flavor" -> (info \ "build_flavor").as[JsValue]
     ) ++ roles(info)
   }
 

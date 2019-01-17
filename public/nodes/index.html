@@ -78,12 +78,14 @@
             <div>
               <small>{{node.host}}</small>
             </div>
+            <div ng-show="node.jvm">
+              <small><span ng-show="node.jvm_name">{{node.jvm_name}} </span>v{{node.jvm}}</small>
+            </div>
+            <div ng-show="node.version">
+              <small><span ng-show="node.build_flavor">{{node.build_flavor}} </span>v{{node.version}}</small>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="node-labels">
-        <span class="label label-details" ng-show="node.jvm">JVM: {{node.jvm}}</span>
-        <span class="label label-details">ES: {{node.version}}</span>
       </div>
     </td>
     <td>
