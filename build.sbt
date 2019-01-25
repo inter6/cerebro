@@ -39,3 +39,8 @@ serverLoading := Some(ServerLoader.Systemd)
 systemdSuccessExitStatus in Debian += "143"
 systemdSuccessExitStatus in Rpm += "143"
 linuxPackageMappings += packageTemplateMapping(s"/var/lib/${packageName.value}")() withUser((daemonUser in Linux).value) withGroup((daemonGroup in Linux).value)
+
+maintainer := "inter6 <inter6@naver.com>"
+dockerRepository := Some("inter6")
+version in Docker := version.value
+dockerExposedPorts in Docker := Seq(9000)
