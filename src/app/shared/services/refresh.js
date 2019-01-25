@@ -3,7 +3,7 @@ angular.module('cerebro').factory('RefreshService',
 
     var timestamp = new Date().getTime();
 
-    var interval = 15000;
+    var interval = 0;
 
     this.getInterval = function() {
       return interval;
@@ -13,7 +13,12 @@ angular.module('cerebro').factory('RefreshService',
       if (interval > newInterval) {
         this.refresh(); // makes change apparent quicker
       }
+
+      var oldInterval = interval;
       interval = newInterval;
+      if (oldInterval == 0) {
+        autoRefresh(this);
+      }
     };
 
     this.lastUpdate = function() {
@@ -26,7 +31,9 @@ angular.module('cerebro').factory('RefreshService',
 
     var autoRefresh = function(instance) {
       instance.refresh();
-      $timeout(function() { autoRefresh(instance); }, interval);
+      if (interval != 0) {
+        $timeout(function() { autoRefresh(instance); }, interval)
+      }
     };
 
     autoRefresh(this);
